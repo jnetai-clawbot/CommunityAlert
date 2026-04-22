@@ -10,4 +10,4 @@
 local.properties
 *.apk
 *.aab
-!app/release.keystore
+app/release.keystore

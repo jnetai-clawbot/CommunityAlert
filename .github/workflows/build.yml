@@ -25,6 +25,11 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
+      - name: Install Android SDK components
+        run: |
+          sdkmanager --install "platforms;android-34"
+          sdkmanager --install "build-tools;34.0.0"
+
       - name: Decode keystore
         env:
           RELEASE_KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
@@ -39,10 +44,12 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        run: ./gradlew assembleRelease
+        run: ./gradlew assembleRelease --no-daemon
 
       - name: Rename APK
-        run: mv app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/CommunityAlert.apk || mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/CommunityAlert.apk || true
+        run: |
+          APK=$(find app/build/outputs/apk/release -name "*.apk" | head -1)
+          cp "$APK" app/build/outputs/apk/release/CommunityAlert.apk
 
       - name: Upload APK as artifact
         uses: actions/upload-artifact@v4
