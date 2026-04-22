@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/alertFeedFragment">
+
+    <fragment
+        android:id="@+id/alertFeedFragment"
+        android:name="com.jnetai.communityalert.ui.feed.AlertFeedFragment"
+        android:label="Alerts"
+        tools:layout="@layout/fragment_alert_feed">
+        <action
+            android:id="@+id/action_alertFeedFragment_to_createAlertFragment"
+            app:destination="@id/createAlertFragment" />
+        <action
+            android:id="@+id/action_alertFeedFragment_to_alertDetailFragment"
+            app:destination="@id/alertDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createAlertFragment"
+        android:name="com.jnetai.communityalert.ui.create.CreateAlertFragment"
+        android:label="Create Alert"
+        tools:layout="@layout/fragment_create_alert" />
+
+    <fragment
+        android:id="@+id/alertDetailFragment"
+        android:name="com.jnetai.communityalert.ui.detail.AlertDetailFragment"
+        android:label="Alert Detail"
+        tools:layout="@layout/fragment_alert_detail" />
+
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.jnetai.communityalert.ui.history.HistoryFragment"
+        android:label="History"
+        tools:layout="@layout/fragment_history">
+        <action
+            android:id="@+id/action_historyFragment_to_alertDetailFragment"
+            app:destination="@id/alertDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.jnetai.communityalert.ui.about.AboutFragment"
+        android:label="About"
+        tools:layout="@layout/fragment_about" />
+
+</navigation>
