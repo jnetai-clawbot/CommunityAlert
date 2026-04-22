@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -37,16 +36,16 @@ class AlertAdapter(
     }
 
     inner class AlertViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val cardView: CardView = view.findViewById(R.id.cardAlert)
-        private val titleText: TextView = view.findViewById(R.id.textTitle)
-        private val descriptionText: TextView = view.findViewById(R.id.textDescription)
-        private val categoryText: TextView = view.findViewById(R.id.textCategory)
-        private val severityText: TextView = view.findViewById(R.id.textSeverity)
-        private val dateText: TextView = view.findViewById(R.id.textDate)
-        private val statusText: TextView = view.findViewById(R.id.textStatus)
-        private val categoryIcon: ImageView = view.findViewById(R.id.iconCategory)
-        private val btnAcknowledge: View = view.findViewById(R.id.btnAcknowledge)
-        private val btnDismiss: View = view.findViewById(R.id.btnDismiss)
+        private val cardView: MaterialCardView = view.findViewById(R.id.cardAlert)
+        private val titleText: TextView = view.findViewById(R.id.text_title)
+        private val descriptionText: TextView = view.findViewById(R.id.text_description)
+        private val categoryText: TextView = view.findViewById(R.id.text_category)
+        private val severityText: TextView = view.findViewById(R.id.text_severity)
+        private val dateText: TextView = view.findViewById(R.id.text_date)
+        private val statusText: TextView = view.findViewById(R.id.text_status)
+        private val categoryIcon: ImageView = view.findViewById(R.id.icon_category)
+        private val btnAcknowledge: View = view.findViewById(R.id.btn_acknowledge)
+        private val btnDismiss: View = view.findViewById(R.id.btn_dismiss)
 
         fun bind(alert: Alert) {
             titleText.text = alert.title

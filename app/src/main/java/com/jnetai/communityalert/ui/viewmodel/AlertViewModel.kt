@@ -14,7 +14,8 @@ import kotlinx.coroutines.launch
 
 class AlertViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository: AlertRepository
+    private val dao = AlertDatabase.getDatabase(application).alertDao()
+    private val repository = AlertRepository(dao)
 
     private val _filterCategory = MutableStateFlow<AlertCategory?>(null)
     private val _filterSeverity = MutableStateFlow<Severity?>(null)
@@ -57,11 +58,6 @@ class AlertViewModel(application: Application) : AndroidViewModel(application) {
         val startDate: String?,
         val endDate: String?
     )
-
-    init {
-        val dao = AlertDatabase.getDatabase(application).alertDao()
-        repository = AlertRepository(dao)
-    }
 
     fun insertAlert(alert: Alert) {
         viewModelScope.launch(Dispatchers.IO) {
