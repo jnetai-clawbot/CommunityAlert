@@ -10,6 +10,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.jnetai.communityalert.R
 import com.jnetai.communityalert.data.entity.Alert
+import com.jnetai.communityalert.data.entity.AlertCategory
+import com.jnetai.communityalert.data.entity.Severity
 import com.jnetai.communityalert.databinding.FragmentAlertDetailBinding
 import com.jnetai.communityalert.ui.viewmodel.AlertViewModel
 import kotlinx.coroutines.Dispatchers
@@ -48,7 +50,7 @@ class AlertDetailFragment : Fragment() {
 
     private fun loadAlert() {
         viewLifecycleOwner.lifecycleScope.launch {
-            val alert = withContext(Dispatchers.IO) {
+            val alert: Alert? = withContext(Dispatchers.IO) {
                 viewModel.getAlertById(alertId)
             }
 
@@ -72,9 +74,9 @@ class AlertDetailFragment : Fragment() {
 
         // Severity color
         val colorRes = when (alert.severity) {
-            com.jnetai.communityalert.data.entity.Severity.CRITICAL -> R.color.severity_critical
-            com.jnetai.communityalert.data.entity.Severity.WARNING -> R.color.severity_warning
-            com.jnetai.communityalert.data.entity.Severity.INFO -> R.color.severity_info
+            Severity.CRITICAL -> R.color.severity_critical
+            Severity.WARNING -> R.color.severity_warning
+            Severity.INFO -> R.color.severity_info
         }
         binding.textDetailSeverity.setTextColor(
             androidx.core.content.ContextCompat.getColor(requireContext(), colorRes)
@@ -82,10 +84,10 @@ class AlertDetailFragment : Fragment() {
 
         // Category icon
         val iconRes = when (alert.category) {
-            com.jnetai.communityalert.data.entity.AlertCategory.WEATHER -> R.drawable.ic_weather
-            com.jnetai.communityalert.data.entity.AlertCategory.SAFETY -> R.drawable.ic_safety
-            com.jnetai.communityalert.data.entity.AlertCategory.TRAFFIC -> R.drawable.ic_traffic
-            com.jnetai.communityalert.data.entity.AlertCategory.COMMUNITY -> R.drawable.ic_community
+            AlertCategory.WEATHER -> R.drawable.ic_weather
+            AlertCategory.SAFETY -> R.drawable.ic_safety
+            AlertCategory.TRAFFIC -> R.drawable.ic_traffic
+            AlertCategory.COMMUNITY -> R.drawable.ic_community
         }
         binding.iconDetailCategory.setImageResource(iconRes)
 

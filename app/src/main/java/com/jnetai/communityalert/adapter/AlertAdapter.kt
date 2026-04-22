@@ -9,6 +9,8 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.jnetai.communityalert.R
 import com.jnetai.communityalert.data.entity.Alert
 import com.jnetai.communityalert.data.entity.AlertCategory
@@ -34,17 +36,17 @@ class AlertAdapter(
         holder.bind(alert)
     }
 
-    inner class AlertViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val cardView: CardView = itemView.findViewById(R.id.cardAlert)
-        private val titleText: TextView = itemView.findViewById(R.id.textTitle)
-        private val descriptionText: TextView = itemView.findViewById(R.id.textDescription)
-        private val categoryText: TextView = itemView.findViewById(R.id.textCategory)
-        private val severityText: TextView = itemView.findViewById(R.id.textSeverity)
-        private val dateText: TextView = itemView.findViewById(R.id.textDate)
-        private val statusText: TextView = itemView.findViewById(R.id.textStatus)
-        private val categoryIcon: ImageView = itemView.findViewById(R.id.iconCategory)
-        private val btnAcknowledge: View = itemView.findViewById(R.id.btnAcknowledge)
-        private val btnDismiss: View = itemView.findViewById(R.id.btnDismiss)
+    inner class AlertViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        private val cardView: CardView = view.findViewById(R.id.cardAlert)
+        private val titleText: TextView = view.findViewById(R.id.textTitle)
+        private val descriptionText: TextView = view.findViewById(R.id.textDescription)
+        private val categoryText: TextView = view.findViewById(R.id.textCategory)
+        private val severityText: TextView = view.findViewById(R.id.textSeverity)
+        private val dateText: TextView = view.findViewById(R.id.textDate)
+        private val statusText: TextView = view.findViewById(R.id.textStatus)
+        private val categoryIcon: ImageView = view.findViewById(R.id.iconCategory)
+        private val btnAcknowledge: View = view.findViewById(R.id.btnAcknowledge)
+        private val btnDismiss: View = view.findViewById(R.id.btnDismiss)
 
         fun bind(alert: Alert) {
             titleText.text = alert.title

@@ -113,6 +113,10 @@ class AlertViewModel(application: Application) : AndroidViewModel(application) {
         _filterEndDate.value = null
     }
 
+    suspend fun getAlertById(id: Long): Alert? {
+        return repository.getAlertById(id)
+    }
+
     suspend fun getAllAlertsForExport(): List<Alert> {
         return repository.getAllAlertsSync()
     }

@@ -5,20 +5,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jnetai.communityalert.R
 import com.jnetai.communityalert.adapter.AlertAdapter
-import com.jnetai.communityalert.data.entity.Alert
 import com.jnetai.communityalert.databinding.FragmentHistoryBinding
 import com.jnetai.communityalert.ui.viewmodel.AlertViewModel
 import com.jnetai.communityalert.util.AlertExporter
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import androidx.lifecycle.lifecycleScope
-import android.widget.Toast
 import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -57,9 +58,11 @@ class HistoryFragment : Fragment() {
         binding.recyclerHistory.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerHistory.adapter = adapter
 
-        viewModel.alerts.observe(viewLifecycleOwner) { alerts ->
-            adapter.submitList(alerts)
-            binding.textEmptyHistory.visibility = if (alerts.isEmpty()) View.VISIBLE else View.GONE
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.alerts.collectLatest { alerts ->
+                adapter.submitList(alerts)
+                binding.textEmptyHistory.visibility = if (alerts.isEmpty()) View.VISIBLE else View.GONE
+            }
         }
 
         setupDateFilters()

@@ -5,18 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jnetai.communityalert.R
 import com.jnetai.communityalert.adapter.AlertAdapter
+import com.jnetai.communityalert.data.entity.Alert
 import com.jnetai.communityalert.data.entity.AlertCategory
 import com.jnetai.communityalert.data.entity.Severity
 import com.jnetai.communityalert.databinding.FragmentAlertFeedBinding
 import com.jnetai.communityalert.ui.viewmodel.AlertViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class AlertFeedFragment : Fragment() {
 
@@ -55,20 +57,25 @@ class AlertFeedFragment : Fragment() {
 
         setupFilters()
 
-        viewModel.alerts.observe(viewLifecycleOwner) { alerts ->
-            adapter.submitList(alerts)
-            binding.textEmptyState.visibility = if (alerts.isEmpty()) View.VISIBLE else View.GONE
-            binding.recyclerAlerts.visibility = if (alerts.isEmpty()) View.GONE else View.VISIBLE
+        // Observe alerts StateFlow
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.alerts.collectLatest { alerts ->
+                adapter.submitList(alerts)
+                binding.textEmptyState.visibility = if (alerts.isEmpty()) View.VISIBLE else View.GONE
+                binding.recyclerAlerts.visibility = if (alerts.isEmpty()) View.GONE else View.VISIBLE
+            }
         }
 
-        // Critical alert banner
-        viewModel.criticalAlerts.observe(viewLifecycleOwner) { criticalAlerts ->
-            if (criticalAlerts.isNotEmpty()) {
-                binding.criticalBanner.root.visibility = View.VISIBLE
-                binding.criticalBanner.textCriticalCount.text =
-                    getString(R.string.critical_alerts_count, criticalAlerts.size)
-            } else {
-                binding.criticalBanner.root.visibility = View.GONE
+        // Observe critical alerts StateFlow
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.criticalAlerts.collectLatest { criticalAlerts ->
+                if (criticalAlerts.isNotEmpty()) {
+                    binding.criticalBanner.root.visibility = View.VISIBLE
+                    binding.criticalBanner.textCriticalCount.text =
+                        getString(R.string.critical_alerts_count, criticalAlerts.size)
+                } else {
+                    binding.criticalBanner.root.visibility = View.GONE
+                }
             }
         }
 
